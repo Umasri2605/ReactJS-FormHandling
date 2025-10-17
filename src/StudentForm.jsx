@@ -59,5 +59,4 @@ function StudentForm() {
     </div>
   )
 }
-
 export default StudentForm
