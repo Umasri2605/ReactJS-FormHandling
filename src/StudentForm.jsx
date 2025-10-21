@@ -1,4 +1,5 @@
 import { useFormik } from 'formik'
+import * as Yup from 'yup';
 import React from 'react'
 
 function StudentForm() {
@@ -10,6 +11,9 @@ function StudentForm() {
             "techs":[],
             "country":"",
         },
+        validationSchema:Yup.object({
+          firstName:Yup.string().required("FirstName is Mandatory").min(3)
+        }),
         onSubmit:(values)=>{
            console.log(values);
         }
@@ -17,9 +21,11 @@ function StudentForm() {
   return (
     <div className="border border-2 border-success-subtle m-3 p-3">
       <h3>StudentForm:</h3>
+      <p>{JSON.stringify(studentForm.errors)}</p>
       <form onSubmit={studentForm.handleSubmit}>
         <b>FirstName</b>
-        <input type="text" name="firstName" onChange={studentForm.handleChange}/>
+        <input type="text" name="firstName" onChange={studentForm.handleChange} onBlur={studentForm.handleBlur}/>
+        {studentForm.errors.firstName && <div>FirstName is Mandatory</div>}
         <br></br>
         <br></br>
         <b>LastName</b>
@@ -44,7 +50,7 @@ function StudentForm() {
         <br></br>
         <b>Country:</b>
         <select name="country" onChange={studentForm.handleChange} >
-        <option disabled selected>Select your Country</option> 
+        <option default value="">Select your Country</option> 
         <option value="India">INDIA</option>
         <option value="Usa">USA</option>
         <option value="Uk">UK</option>
